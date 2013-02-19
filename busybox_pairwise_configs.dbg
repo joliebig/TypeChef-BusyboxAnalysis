@@ -1,0 +1,105 @@
+SPL Covering Array Tool v0.3 (SPLC 2012) (ICPL edition)
+http://heim.ifi.uio.no/martifag/splc2012/
+Args: {limit=100%, fm=BB_fm.dimacs, t=t_wise, s=2, a=ICPL, Xmx=63g=}
+Loading dimacs: BB_fm.dimacs
+CNF: Given p and c: 792 and 993
+Successfully loaded and converted the model:
+Features: 792
+Constraints: 993
+Generating 2-wise covering array with algorithm: ICPL
+Running algorithm: ICPL
+Covering 100%
+--- 1-wise ---
+Threads for this task: 32
+Mandatory features: 322
+Dead features: 6
+Total uncovered: 928
+Total uncovered after first removal: 36
+1-wise done, solutions: 4, invalid: 328
+--- 2-wise ---
+Uncovered pairs left: 787676, invalid: 465268
+Round complete
+Additionally covered 313236
+Uncovered: 474440, progress: 62% with solutions: 1
+Round complete
+Additionally covered 223983
+Uncovered: 250457, progress: 80% with solutions: 2
+Round complete
+Additionally covered 96260
+Uncovered: 154197, progress: 87% with solutions: 3
+Cover pairs progress: 37492/154197 = 24%
+Round complete
+Additionally covered 55769
+Uncovered: 98428, progress: 92% with solutions: 4
+Cover pairs progress: 53843/98428 = 54%
+Round complete
+Additionally covered 34152
+Uncovered: 64276, progress: 94% with solutions: 5
+Cover pairs progress: 57785/64276 = 89%
+Round complete
+Additionally covered 22935
+Uncovered: 41341, progress: 96% with solutions: 6
+Cover pairs progress: 37413/41341 = 90%
+Round complete
+Additionally covered 14993
+Uncovered: 26348, progress: 97% with solutions: 7
+Round complete
+Additionally covered 9279
+Uncovered: 17069, progress: 98% with solutions: 8
+Round complete
+Additionally covered 5924
+Uncovered: 11145, progress: 99% with solutions: 9
+Round complete
+Additionally covered 3742
+Uncovered: 7403, progress: 99% with solutions: 10
+Round complete
+Additionally covered 2662
+Uncovered: 4741, progress: 99% with solutions: 11
+Round complete
+Additionally covered 1493
+Uncovered: 3248, progress: 99% with solutions: 12
+Round complete
+Additionally covered 1024
+Uncovered: 2224, progress: 99% with solutions: 13
+Round complete
+Additionally covered 727
+Removing invalid
+Threads for this task: 32
+Invalid: 157
+Uncovered: 1340, progress: 99% with solutions: 14
+Round complete
+Additionally covered 568
+Uncovered: 772, progress: 99% with solutions: 15
+Round complete
+Additionally covered 326
+Uncovered: 446, progress: 99% with solutions: 16
+Round complete
+Additionally covered 162
+Uncovered: 284, progress: 99% with solutions: 17
+Round complete
+Additionally covered 147
+Uncovered: 137, progress: 99% with solutions: 18
+Round complete
+Additionally covered 78
+Uncovered: 59, progress: 99% with solutions: 19
+Round complete
+Additionally covered 31
+Uncovered: 28, progress: 99% with solutions: 20
+Round complete
+Additionally covered 13
+Uncovered: 15, progress: 99% with solutions: 21
+Round complete
+Additionally covered 6
+Uncovered: 9, progress: 99% with solutions: 22
+Round complete
+Additionally covered 4
+Uncovered: 5, progress: 99% with solutions: 23
+Round complete
+Additionally covered 3
+Uncovered: 2, progress: 99% with solutions: 24
+Round complete
+Additionally covered 2
+Uncovered: 0, progress: 100% with solutions: 25
+2-wise done, solutions: 25, invalid: 465268
+Done. Size: 25, time: 16098 milliseconds
+Wrote result to BB_fm.dimacs.ca2.csv
