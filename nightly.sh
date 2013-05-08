@@ -1,12 +1,17 @@
-cd ~/TypeChef/busybox/gitbusybox
+cd gitbusybox
 git pull > gitstatus
-grep "Already up-to-date" gitstatus > /dev/null
-if [ $? == 0 ]; 
+if [ "$1" =  "--force" ]
 then
-	echo "No git updates. Quitting."
-	exit
-else
-	echo "Starting checking..."
+	echo Skipping git check.
+else 
+	grep "Already up-to-date" gitstatus > /dev/null
+	if [ $? == 0 ]; 
+	then
+		echo "No git updates. Quitting."
+		exit
+	else
+		echo "Starting checking..."
+	fi
 fi
 
 cd ..
@@ -26,5 +31,7 @@ mv gitbusybox/busyboxfinal.dbginterface gitbusybox/busyboxprev.dbginterface
 mv busyboxfinal.interface gitbusybox/busyboxfinal.interface
 mv busyboxfinal.dbginterface gitbusybox/busyboxfinal.dbginterface
 ./run.sh de.fosd.typechef.busybox.InterfaceDiff gitbusybox/busyboxprev.interface gitbusybox/busyboxfinal.interface > gitbusybox/interfacediff
+cp gitbusybox/interfacediff gitbusybox/interfacediff.txt
+cp gitbusybox/outfail gitbusybox/outfail.txt
 
-echo Finished nightly with `wc -l gitbusybox/outfail` and `wc -l gitbusybox/interfacediff` | mail -s "busybox nightly" -a gitbusybox/outfail -a gitbusybox/interfacediff kaestner
+echo Finished nightly with `wc -l gitbusybox/outfail` and `wc -l gitbusybox/interfacediff` | mail -s "busybox nightly" -a gitbusybox/outfail.txt -a gitbusybox/interfacediff.txt ckaestne
