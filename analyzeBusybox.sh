@@ -18,7 +18,7 @@ filesToProcess() {
 
 flags="-U HAVE_LIBDMALLOC -DCONFIG_FIND -U CONFIG_FEATURE_WGET_LONG_OPTIONS -U ENABLE_NC_110_COMPAT -U CONFIG_EXTRA_COMPAT -D_GNU_SOURCE"
 srcPath="busybox-1.18.5"
-export partialPreprocFlags="-x CONFIG_ --include busybox/config.h -I $srcPath/include --featureModelFExpr busybox/featureModel --debugInterface --writePI --recordTiming --parserstatistics --typecheck"
+export partialPreprocFlags="-x CONFIG_ --include busybox/config.h -I $srcPath/include --featureModelFExpr busybox/featureModel --writePI --recordTiming --parserstatistics --typecheck --rootfolder=/work/joliebig/ --fileconfig --codecoverage --codecoveragenh --pairwise --analysis doublefree --analysis uninitializedmemory --analysis xfree --analysis casetermination --analysis danglingswitchcode --analysis cfginnonvoidfunction --analysis checkstdlibfuncreturn --analysis deadstore"
 
 ## recompile TypeChef
 #cd ../TypeChef
