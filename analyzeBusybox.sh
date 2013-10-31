@@ -1,37 +1,45 @@
 #!/bin/bash -e
 #!/bin/bash -vxe
 
-SKIP=1
-NTH=1
-
-if [ $# -eq 2 ]
-then
-	SKIP=$1
-	NTH=$2
-fi
-
 filesToProcess() {
   local listFile=busybox/busybox_files
-  sed -n "$SKIP~${NTH}p" $listFile
+  cat $listFile
+  #awk -F: '$1 ~ /.c$/ {print gensub(/\.c$/, "", "", $1)}' < linux_2.6.33.3_pcs.txt
 }
-
 
 flags="-U HAVE_LIBDMALLOC -DCONFIG_FIND -U CONFIG_FEATURE_WGET_LONG_OPTIONS -U ENABLE_NC_110_COMPAT -U CONFIG_EXTRA_COMPAT -D_GNU_SOURCE"
 srcPath="busybox-1.18.5"
-export partialPreprocFlags="-x CONFIG_ --include busybox/config.h -I $srcPath/include --featureModelFExpr busybox/featureModel --writePI --recordTiming --parserstatistics --typecheck --rootfolder=/work/joliebig/ --fileconfig --codecoverage --codecoveragenh --pairwise --analysis doublefree --analysis uninitializedmemory --analysis xfree --analysis casetermination --analysis danglingswitchcode --analysis cfginnonvoidfunction --analysis checkstdlibfuncreturn --analysis deadstore"
-
-## recompile TypeChef
-#cd ../TypeChef
-#java -jar sbt-launch.jar mkrun
-#cd -
-
+export partialPreprocFlagsBase="-x CONFIG_ \
+  --bdd \
+  --include busybox/config.h \
+  -I $srcPath/include \
+  --featureModelDimacs BB_fm.dimacs \
+  --writePI --recordTiming --parserstatistics --lexdebug \
+  --rootfolder /work/joliebig/"
 ## Reset output
 filesToProcess|while read i; do
-  if [ ! -f $srcPath/$i.dbg ]; then
-    touch $srcPath/$i.dbg
+if [ ! -f $srcPath/$i.dbg ]; then
+touch $srcPath/$i.dbg
+    # variability-aware analysis
+    export partialPreprocFlags="$partialPreprocFlagsBase --serializeAST --family"
+    ./jcpp.sh $srcPath/$i.c $flags
+
+    # single conf
+    export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --singleconf"
+    ./jcpp.sh $srcPath/$i.c $flags
+
+    # pairwise
+    export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --pairwise"
+    ./jcpp.sh $srcPath/$i.c $flags
+
+    # code coverage
+    export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --codecoverage"
+    ./jcpp.sh $srcPath/$i.c $flags
+
+    # code coverage nh
+    export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --codecoveragenh"
     ./jcpp.sh $srcPath/$i.c $flags
   else
-    echo "Skipping $srcPath/$i.c"
+echo "Skipping $srcPath/$i.c"
   fi
 done
-
