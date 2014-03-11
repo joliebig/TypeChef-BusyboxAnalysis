@@ -15,7 +15,10 @@ export partialPreprocFlagsBase="-x CONFIG_ \
   -I $srcPath/include \
   --featureModelDimacs BB_fm.dimacs \
   --writePI --recordTiming --parserstatistics --lexdebug \
-  --rootfolder /work/joliebig/"
+  --rootfolder /local/joliebig/"
+
+sleep $[ ( $RANDOM % 20 ) + 1 ]s
+
 ## Reset output
 filesToProcess|while read i; do
     if [ ! -f $srcPath/$i.dbg ]; then
