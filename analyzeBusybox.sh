@@ -18,28 +18,58 @@ export partialPreprocFlagsBase="-x CONFIG_ \
   --rootfolder /work/joliebig/"
 ## Reset output
 filesToProcess|while read i; do
-if [ ! -f $srcPath/$i.dbg ]; then
-touch $srcPath/$i.dbg
-    # variability-aware analysis
-    export partialPreprocFlags="$partialPreprocFlagsBase --serializeAST --family"
-    ./jcpp.sh $srcPath/$i.c $flags
+    if [ ! -f $srcPath/$i.dbg ]; then
+        touch $srcPath/$i.dbg
+        dirname=`dirname $i`
+        filename=`basename $i`
 
-    # single conf
-    export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --singleconf"
-    ./jcpp.sh $srcPath/$i.c $flags
+        export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --family"
+        ./jcpp.sh $srcPath/$i.c $flags
 
-    # pairwise
-    export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --pairwise"
-    ./jcpp.sh $srcPath/$i.c $flags
-
-    # code coverage
-    export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --codecoverage"
-    ./jcpp.sh $srcPath/$i.c $flags
-
-    # code coverage nh
-    export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --codecoveragenh"
-    ./jcpp.sh $srcPath/$i.c $flags
-  else
-echo "Skipping $srcPath/$i.c"
-  fi
+#        # parse and serialize AST
+#        export partialPreprocFlags="$partialPreprocFlagsBase --serializeAST"
+#        ./jcpp.sh $srcPath/$i.c $flags
+#        # preserve debugging and error files; would be overridden by subsequent
+#        # ./jcpp.sh run
+#        mv $srcPath/$i.err $srcPath/$i_parsing.err
+#        mv $srcPath/$i.dbg $srcPath/$i_parsing.dbg
+#
+#        # variability-aware analysis
+#        export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --family"
+#        ./jcpp.sh $srcPath/$i.c $flags
+#        mv $srcPath/$i.err $srcPath/$i_parsing.err
+#        mv $srcPath/$i.dbg $srcPath/$i_parsing.dbg
+#
+#        # single conf
+#        export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --singleconf"
+#        ./jcpp.sh $srcPath/$i.c $flags
+#        mv $srcPath/$i.err $srcPath/$i_singleconf.err
+#        mv $srcPath/$i.dbg $srcPath/$i_singleconf.dbg
+#
+#        # pairwise
+#        export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --pairwise"
+#        ./jcpp.sh $srcPath/$i.c $flags
+#        mv $srcPath/$i.err $srcPath/$i_pairwise.err
+#        mv $srcPath/$i.dbg $srcPath/$i_pairwise.dbg
+#
+#        # code coverage
+#        export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --codecoverage"
+#        ./jcpp.sh $srcPath/$i.c $flags
+#        mv $srcPath/$i.err $srcPath/$i_codecoverage.err
+#        mv $srcPath/$i.dbg $srcPath/$i_codecoverage.dbg
+#
+#        # code coverage nh
+#        export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --codecoveragenh"
+#        ./jcpp.sh $srcPath/$i.c $flags
+#        mv $srcPath/$i.err $srcPath/$i_codecoveragenh.err
+#        mv $srcPath/$i.dbg $srcPath/$i_codecoveragenh.dbg
+#
+#        # create condensed report
+#        find $srcPath/$dirname -type f -name "$filename*.vaareport" | xargs cat > $srcPath/$i.vaareportall
+#
+#        # remove unnecessary files
+#        rm $srcPath/$i.pi
+    else
+        echo "Skipping $srcPath/$i.c"
+    fi
 done

@@ -15,8 +15,8 @@ export partialPreprocFlags="-x CONFIG_ \
   --include mheader.h \
   --featureModelDimacs gitbusybox/featureModel.dimacs \
   -I $srcPath/include  \
-  --debugInterface --writePI --recordTiming --parserstatistics --lexdebug \
-  --interface"
+  --writePI --recordTiming --parserstatistics --lexdebug \
+  --dumpcfg"
 echo $partialPreprocFlags
 ## Reset output
 filesToProcess|while read i; do
