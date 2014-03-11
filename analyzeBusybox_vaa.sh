@@ -28,41 +28,43 @@ filesToProcess|while read i; do
         ./jcpp.sh $srcPath/$i.c $flags
         # preserve debugging and error files; would be overridden by subsequent
         # ./jcpp.sh run
-        mv $srcPath/$i.err $srcPath/$i_parsing.err
-        mv $srcPath/$i.dbg $srcPath/$i_parsing.dbg
+        mv $srcPath/$i.err $srcPath/$i_parsing.errvaa
+        mv $srcPath/$i.dbg $srcPath/$i_parsing.dbgvaa
 
         # variability-aware analysis
         export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --family"
         ./jcpp.sh $srcPath/$i.c $flags
-        mv $srcPath/$i.err $srcPath/$i_parsing.err
-        mv $srcPath/$i.dbg $srcPath/$i_parsing.dbg
+        mv $srcPath/$i.err $srcPath/$i_parsing.errvaa
+        mv $srcPath/$i.dbg $srcPath/$i_parsing.dbgvaa
 
         # single conf
         export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --singleconf"
         ./jcpp.sh $srcPath/$i.c $flags
-        mv $srcPath/$i.err $srcPath/$i_singleconf.err
-        mv $srcPath/$i.dbg $srcPath/$i_singleconf.dbg
+        mv $srcPath/$i.err $srcPath/$i_singleconf.errvaa
+        mv $srcPath/$i.dbg $srcPath/$i_singleconf.dbgvaa
 
         # pairwise
         export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --pairwise"
         ./jcpp.sh $srcPath/$i.c $flags
-        mv $srcPath/$i.err $srcPath/$i_pairwise.err
-        mv $srcPath/$i.dbg $srcPath/$i_pairwise.dbg
+        mv $srcPath/$i.err $srcPath/$i_pairwise.errvaa
+        mv $srcPath/$i.dbg $srcPath/$i_pairwise.dbgvaa
 
         # code coverage
         export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --codecoverage"
         ./jcpp.sh $srcPath/$i.c $flags
-        mv $srcPath/$i.err $srcPath/$i_codecoverage.err
-        mv $srcPath/$i.dbg $srcPath/$i_codecoverage.dbg
+        mv $srcPath/$i.err $srcPath/$i_codecoverage.errvaa
+        mv $srcPath/$i.dbg $srcPath/$i_codecoverage.dbgvaa
 
         # code coverage nh
         export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --codecoveragenh"
         ./jcpp.sh $srcPath/$i.c $flags
-        mv $srcPath/$i.err $srcPath/$i_codecoveragenh.err
-        mv $srcPath/$i.dbg $srcPath/$i_codecoveragenh.dbg
+        mv $srcPath/$i.err $srcPath/$i_codecoveragenh.errvaa
+        mv $srcPath/$i.dbg $srcPath/$i_codecoveragenh.dbgvaa
 
         # create condensed report
-        find $srcPath/$dirname -type f -name "$filename*.vaareport" | xargs cat > $srcPath/$i.vaareportall
+        find $srcPath/$dirname -type f -name "$filename.c_*.vaareport" | xargs cat > $srcPath/$i.vaareportall
+
+        touch $srcPath/$i.dbg
 
         # remove unnecessary files
         rm $srcPath/$i.pi
