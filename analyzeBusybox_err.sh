@@ -23,7 +23,7 @@ filesToProcess|while read i; do
         dirname=`dirname $i`
         filename=`basename $i`
 
-        export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --family"
+        export partialPreprocFlags="$partialPreprocFlagsBase --errordetection"
         ./jcpp.sh $srcPath/$i.c $flags
     else
         echo "Skipping $srcPath/$i.c"
