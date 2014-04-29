@@ -13,7 +13,7 @@ export partialPreprocFlagsBase="-x CONFIG_ \
   --bdd \
   --include busybox/config.h \
   -I $srcPath/include \
-  --featureModelDimacs BB_fm.dimacs \
+  --featureModelDimacs busybox/featureModel.dimacs \
   --writePI --recordTiming --parserstatistics --lexdebug \
   --rootfolder /local/joliebig/"
 

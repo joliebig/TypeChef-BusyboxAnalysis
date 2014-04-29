@@ -13,8 +13,8 @@ export partialPreprocFlags="-x CONFIG_ \
   --bdd \
   --include busybox/config.h \
   -I $srcPath/include \
-  --featureModelDimacs BB_fm.dimacs \
-  --writePI --recordTiming --parserstatistics --lexdebug"
+  --featureModelDimacs busybox/featureModel.dimacs \
+  --writePI --typecheck --recordTiming --parserstatistics --lexdebug"
 
 ## Reset output
 filesToProcess|while read i; do
@@ -24,7 +24,7 @@ filesToProcess|while read i; do
         ./jcpp.sh $srcPath/$i.c $flags
 
         # remove unnecessary files
-        rm $srcPath/$i.pi
+        # rm $srcPath/$i.pi
     else
         echo "Skipping $srcPath/$i.c"
     fi
