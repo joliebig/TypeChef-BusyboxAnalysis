@@ -15,18 +15,14 @@ export partialPreprocFlagsBase="-x CONFIG_ \
   -I $srcPath/include \
   --featureModelDimacs BB_fm.dimacs \
   --writePI --recordTiming --parserstatistics --lexdebug \
-  --rootfolder /work/joliebig/"
+  --rootfolder /work/joliebig/TypeChef-BusyboxAnalysis/ "
 
 sleep $[ ( $RANDOM % 20 ) + 1 ]s
 
 ## Reset output
 filesToProcess|while read i; do
-    if [ ! -f $srcPath/$i.dbg ]; then
-        touch $srcPath/$i.dbg
-        dirname=`dirname $i`
-        filename=`basename $i`
-
-        export partialPreprocFlags="$partialPreprocFlagsBase --errordetection"
+    if [ ! -f $srcPath/$i.errreport ]; then
+        export partialPreprocFlags="$partialPreprocFlagsBase --errordetection --reuseAST --singleconf --pairwise --codecoverage --codecoveragenh --family"
         ./jcpp.sh $srcPath/$i.c $flags
     else
         echo "Skipping $srcPath/$i.c"

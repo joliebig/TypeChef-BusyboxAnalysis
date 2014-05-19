@@ -15,7 +15,7 @@ export partialPreprocFlagsBase="-x CONFIG_ \
   -I $srcPath/include \
   --featureModelDimacs busybox/featureModel.dimacs \
   --writePI --recordTiming --parserstatistics --lexdebug \
-  --rootfolder /local/joliebig/"
+  --rootfolder /work/joliebig/TypeChef-BusyboxAnalysis/ "
 
 sleep $[ ( $RANDOM % 20 ) + 1 ]s
 

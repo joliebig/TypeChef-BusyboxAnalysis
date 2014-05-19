@@ -18,10 +18,10 @@ export partialPreprocFlags="-x CONFIG_ \
 
 ## Reset output
 filesToProcess|while read i; do
+    ./jcpp.sh $srcPath/$i.c $flags
     if [ ! -f $srcPath/$i.dbg ]; then
         touch $srcPath/$i.dbg
 
-        ./jcpp.sh $srcPath/$i.c $flags
 
         # remove unnecessary files
         # rm $srcPath/$i.pi

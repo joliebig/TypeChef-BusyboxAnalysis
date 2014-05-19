@@ -37,7 +37,7 @@ shift
 # though!
 echo "==TypeChef $inp"
 
-bash -c "time $typechefDir/typechef.sh\
+bash -c "time $typechefDir/typechefsampling.sh\
   $(for arg in $partialPreprocFlags "$@"; do echo -n "\"$arg\" "; done) \
   '$inp' 2> '$outErr' |tee -a '$outDbg'" \
   2> "$outTime" || true
