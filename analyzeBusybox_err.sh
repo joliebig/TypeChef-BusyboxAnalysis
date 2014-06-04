@@ -9,20 +9,24 @@ filesToProcess() {
 
 flags="-U HAVE_LIBDMALLOC -DCONFIG_FIND -U CONFIG_FEATURE_WGET_LONG_OPTIONS -U ENABLE_NC_110_COMPAT -U CONFIG_EXTRA_COMPAT -D_GNU_SOURCE"
 srcPath="busybox-1.18.5"
+
+BASEDIR="/work/joliebig/TypeChef-BusyboxAnalysis/"
+
 export partialPreprocFlagsBase="-x CONFIG_ \
   --bdd \
   --include busybox/config.h \
   -I $srcPath/include \
   --featureModelDimacs BB_fm.dimacs \
   --writePI --recordTiming --parserstatistics --lexdebug \
-  --rootfolder /work/joliebig/TypeChef-BusyboxAnalysis/ "
-
-sleep $[ ( $RANDOM % 20 ) + 1 ]s
+  --casestudy busybox"
 
 ## Reset output
 filesToProcess|while read i; do
     if [ ! -f $srcPath/$i.errreport ]; then
-        export partialPreprocFlags="$partialPreprocFlagsBase --errordetection --reuseAST --singleconf --pairwise --codecoverage --codecoveragenh --family"
+        export partialPreprocFlags="$partialPreprocFlagsBase --errordetection --reuseAST \
+        --singleconf $BASEDIR/BusyboxBigConfig.config \
+        --pairwise $BASEDIR/busybox_pairwise_configs.csv \
+        --codecoverage --codecoveragenh --family"
         ./jcpp.sh $srcPath/$i.c $flags
     else
         echo "Skipping $srcPath/$i.c"
