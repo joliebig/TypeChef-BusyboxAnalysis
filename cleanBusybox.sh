@@ -11,3 +11,5 @@ find busybox-1.18.5/ -name "*.xml"          |while read i; do echo $i; rm $i; do
 find busybox-1.18.5/ -name "*.interface"    |while read i; do echo $i; rm $i; done
 find busybox-1.18.5/ -name "*.time"         |while read i; do echo $i; rm $i; done
 find busybox-1.18.5/ -name "*.ast"          |while read i; do echo $i; rm $i; done
+find busybox-1.18.5/ -name "*.errvaa"       |while read i; do echo $i; rm $i; done
+find busybox-1.18.5/ -name "*.dbgvaa"       |while read i; do echo $i; rm $i; done

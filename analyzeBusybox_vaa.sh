@@ -7,6 +7,8 @@ filesToProcess() {
   #awk -F: '$1 ~ /.c$/ {print gensub(/\.c$/, "", "", $1)}' < linux_2.6.33.3_pcs.txt
 }
 
+CSBASEDIR="/work/joliebig/TypeChef-BusyboxAnalysis/"
+
 flags="-U HAVE_LIBDMALLOC -DCONFIG_FIND -U CONFIG_FEATURE_WGET_LONG_OPTIONS -U ENABLE_NC_110_COMPAT -U CONFIG_EXTRA_COMPAT -D_GNU_SOURCE"
 srcPath="busybox-1.18.5"
 export partialPreprocFlagsBase="-x CONFIG_ \
@@ -15,7 +17,7 @@ export partialPreprocFlagsBase="-x CONFIG_ \
   -I $srcPath/include \
   --featureModelDimacs busybox/featureModel.dimacs \
   --writePI --recordTiming --parserstatistics --lexdebug \
-  --rootfolder /work/joliebig/TypeChef-BusyboxAnalysis/ "
+  --casestudy busybox"
 
 sleep $[ ( $RANDOM % 20 ) + 1 ]s
 
@@ -37,17 +39,19 @@ filesToProcess|while read i; do
         # variability-aware analysis
         export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --family"
         ./jcpp.sh $srcPath/$i.c $flags
-        mv $srcPath/$i.err $srcPath/$i_parsing.errvaa
-        mv $srcPath/$i.dbg $srcPath/$i_parsing.dbgvaa
+        mv $srcPath/$i.err $srcPath/$i_family.errvaa
+        mv $srcPath/$i.dbg $srcPath/$i_family.dbgvaa
 
         # single conf
-        export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --singleconf"
+        export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST \
+        --singleconf $CSBASEDIR/BusyboxBigConfig.config"
         ./jcpp.sh $srcPath/$i.c $flags
         mv $srcPath/$i.err $srcPath/$i_singleconf.errvaa
         mv $srcPath/$i.dbg $srcPath/$i_singleconf.dbgvaa
 
         # pairwise
-        export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST --pairwise"
+        export partialPreprocFlags="$partialPreprocFlagsBase --reuseAST \
+        --pairwise $CSBASEDIR/busybox_pairwise_configs.csv"
         ./jcpp.sh $srcPath/$i.c $flags
         mv $srcPath/$i.err $srcPath/$i_pairwise.errvaa
         mv $srcPath/$i.dbg $srcPath/$i_pairwise.dbgvaa
